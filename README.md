@@ -1,4 +1,4 @@
-# Viral-dnaseq-snakemake
+# ViralSnake-DNA: from raw reads to annotated viral variants with Snakemake
 
 A Snakemake pipeline that takes paired-end Illumina reads from a virus sample and finds the mutations in it, both the main (consensus) variants and low-frequency (minor) variants present in a small fraction of the viral population.
 
