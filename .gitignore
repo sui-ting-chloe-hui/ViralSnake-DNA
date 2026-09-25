@@ -1,0 +1,5 @@
+resources/
+projects/
+docs/
+workflows/archive/
+.snakemake/

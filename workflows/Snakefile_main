@@ -1,0 +1,32 @@
+# Load configuration based on project parameter
+if "proj" not in config:
+    raise ValueError("Specify a project, e.g. --config proj=CHIKV")
+
+configfile: "config/" + config["proj"] + ".config.yaml"
+
+RAW_R1 = config["raw_dir"] + "/" + config["r1_pattern"]
+RAW_R2 = config["raw_dir"] + "/" + config["r2_pattern"]
+SAMPLES = glob_wildcards(RAW_R1).sample
+
+# Include modular rule files
+include: "001_qc.smk"
+include: "002_index.smk" 
+include: "003_trim.smk"
+include: "004a_host_filter.smk"
+include: "004b_align_virus.smk"
+include: "005_variants.smk"
+include: "006_annotateSNP.smk"
+include: "007_minorvariants.smk"
+
+# Global rule all that combines all final outputs
+rule all:
+    input:
+        rules.all001.input,
+        rules.all002.input,
+        rules.all003.input,
+        rules.all004a.input,
+        rules.all004b.input,
+        rules.all005b.input,
+        rules.all006.input,
+        rules.all007.input
+       
