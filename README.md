@@ -87,7 +87,14 @@ mkdir -p projects/MYVIRUS/rawdata projects/MYVIRUS/reference
 Copy or link your FASTQ files into `projects/MYVIRUS/rawdata/`. Linking saves space:
 
 ```
-ln -s /path/to/sequencing/run/*.fastq.gz projects/MYVIRUS/rawdata/
+ln -s /path/to/sequencing/run/*.fastq.gz /path/to/sequencing/run/*.fastq.gz.md5 projects/MYVIRUS/rawdata/
+
+# Optional step to check for the integrity of the FASTQ files:
+cd projects/SARS2-BavPat1/rawdata
+for f in *.md5; do md5sum -c "$f"; done
+
+# Every line should end in OK. If one says FAILED, download that file again.
+
 ```
 
 You can also leave the files where they are and point `raw_dir` at them in the config (step 3.5).
