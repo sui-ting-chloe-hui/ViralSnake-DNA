@@ -6,7 +6,7 @@
 # run specific files: snakemake -s workflows/Snakefile_main (full path of the specific file) /home/huic/lstm_scratch/local_scratch/DNA/CHIKV/trimmed/CHIKV-1_R1_tr_1P.fq.gz -j1 -p
 
 proj: "HIV.NL43"
-proj_dir: "/home/huic/lstm_scratch/local_scratch/DNA/projects/HIV.NL43"
+proj_dir: "/home/huic/lstm_scratch/local_scratch/ViralSnake-DNA/projects/HIV.NL43"
 ref_fasta: "combined_human_HIV.fasta" #HIV_NL43_EnvGFP.fasta
 ref_dir: "/home/huic/lstm_data/reference/combined/" # /home/huic/lstm_data/reference/HIV_NL43_EnvGFP/
 raw_dir: "/home/huic/lstm_data/P1658.DNA/rawdata"

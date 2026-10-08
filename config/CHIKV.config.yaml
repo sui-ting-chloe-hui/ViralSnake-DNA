@@ -6,9 +6,9 @@
 # run specific files: snakemake -s workflows/Snakefile_main (full path of the specific file) /home/huic/lstm_scratch/local_scratch/DNA/CHIKV/trimmed/CHIKV-1_R1_tr_1P.fq.gz -j1 -p
 
 proj: "CHIKV"
-proj_dir: "/home/huic/lstm_scratch/local_scratch/DNA/projects/CHIKV"
+proj_dir: "/home/huic/lstm_scratch/local_scratch/ViralSnake-DNA/projects/CHIKV"
 ref_fasta: "CHIKV_NC2011_568.fasta"
-ref_dir: "/home/huic/lstm_scratch/local_scratch/DNA/projects/CHIKV/reference/"
+ref_dir: "/home/huic/lstm_scratch/local_scratch/ViralSnake-DNA/projects/CHIKV/reference/"
 raw_dir: "projects/CHIKV/rawdata"
 r1_pattern: "{sample}_R1_001.fastq.gz"
 r2_pattern: "{sample}_R2_001.fastq.gz"

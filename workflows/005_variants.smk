@@ -19,7 +19,9 @@ rule all005b:
 rule gatk_haplotypecaller:
     input: 
         bam = config["proj_dir"] + "/results/01.alignment/{sample}.sorted.dedup.RG.bam",
-        ref = config["ref_dir"] + config["ref_fasta"]
+        ref = config["ref_dir"] + config["ref_fasta"],
+        ref_dict = (config["ref_dir"] + config["ref_fasta"]).rsplit(".", 1)[0] + ".dict",
+        ref_fai = config["ref_dir"] + config["ref_fasta"] + ".fai"
     output: 
         vcf = config["proj_dir"] + "/results/02.variants/{sample}.raw.vcf.gz"
     threads: config["threads"]
@@ -40,7 +42,9 @@ rule gatk_haplotypecaller:
 rule extract_snps_quality:
     input:
         vcf = config["proj_dir"] + "/results/02.variants/{sample}.raw.vcf.gz",
-        ref = config["ref_dir"] + config["ref_fasta"]
+        ref = config["ref_dir"] + config["ref_fasta"],
+        ref_dict = (config["ref_dir"] + config["ref_fasta"]).rsplit(".", 1)[0] + ".dict",
+        ref_fai = config["ref_dir"] + config["ref_fasta"] + ".fai"
     output:
         snp_vcf = config["proj_dir"] + "/results/02.variants/{sample}.raw_snps_recal.vcf.gz"
     threads: 1
@@ -53,7 +57,9 @@ rule extract_snps_quality:
 rule extract_indels:
     input:
         vcf = config["proj_dir"] + "/results/02.variants/{sample}.raw.vcf.gz",
-        ref = config["ref_dir"] + config["ref_fasta"]
+        ref = config["ref_dir"] + config["ref_fasta"],
+        ref_dict = (config["ref_dir"] + config["ref_fasta"]).rsplit(".", 1)[0] + ".dict",
+        ref_fai = config["ref_dir"] + config["ref_fasta"] + ".fai"
     output:
         indel_vcf = config["proj_dir"] + "/results/02.variants/{sample}.raw_indels_recal.vcf.gz"
     threads: 1
@@ -66,7 +72,9 @@ rule extract_indels:
 rule gatk_filter_snps:
     input:
         vcf = config["proj_dir"] + "/results/02.variants/{sample}.raw_snps_recal.vcf.gz",
-        ref = config["ref_dir"] + config["ref_fasta"]
+        ref = config["ref_dir"] + config["ref_fasta"],
+        ref_dict = (config["ref_dir"] + config["ref_fasta"]).rsplit(".", 1)[0] + ".dict",
+        ref_fai = config["ref_dir"] + config["ref_fasta"] + ".fai"
     output:
         filtered_snp = config["proj_dir"] + "/results/02.variants/{sample}.filtered_snps.vcf.gz"
     shell:
@@ -90,7 +98,9 @@ rule gatk_filter_snps:
 rule gatk_variants_indel_filter:
     input:
         vcf = config["proj_dir"] + "/results/02.variants/{sample}.raw_indels_recal.vcf.gz",
-        ref = config["ref_dir"] + config["ref_fasta"]
+        ref = config["ref_dir"] + config["ref_fasta"],
+        ref_dict = (config["ref_dir"] + config["ref_fasta"]).rsplit(".", 1)[0] + ".dict",
+        ref_fai = config["ref_dir"] + config["ref_fasta"] + ".fai"
     output:
         filtered_indel = config["proj_dir"] + "/results/02.variants/{sample}.filtered_indel.vcf.gz"
     shell:

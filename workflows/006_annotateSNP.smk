@@ -111,7 +111,9 @@ rule index_combined_vcf:
 rule generate_consensus_sequence:
     input:
         combined_vcf = config["proj_dir"] + "/results/02.variants/{sample}.combined.annotate.vcf",
-        ref_fasta = config["ref_dir"] + config["ref_fasta"]
+        ref_fasta = config["ref_dir"] + config["ref_fasta"],
+        ref_dict = (config["ref_dir"] + config["ref_fasta"]).rsplit(".", 1)[0] + ".dict",
+        ref_fai = config["ref_dir"] + config["ref_fasta"] + ".fai"
     output:
         consensus_fasta = config["proj_dir"] + "/results/03.consensus/{sample}.consensus.fasta"
     shell:

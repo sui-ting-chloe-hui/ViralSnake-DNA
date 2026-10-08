@@ -6,10 +6,10 @@
 # run specific files: snakemake -s workflows/Snakefile_main (full path of the specific file) /home/huic/lstm_scratch/local_scratch/DNA/CHIKV/trimmed/CHIKV-1_R1_tr_1P.fq.gz -j1 -p
 
 proj: "SARS2"
-proj_dir: "/home/huic/lstm_scratch/local_scratch/DNA/projects/SARS2"
+proj_dir: "/home/huic/lstm_scratch/local_scratch/ViralSnake-DNA/projects/SARS2"
 ref_fasta: "SARS2_GFP_ORF7a.fasta" # interchangeable with SARS2_GFP_ORF7a.fasta / pBACv6_WA1.gb.fasta
-ref_dir: "/home/huic/lstm_scratch/local_scratch/DNA/projects/SARS2/reference/"
-raw_dir: "/home/huic/lstm_scratch/local_scratch/DNA/projects/SARS2/rawdata"
+ref_dir: "/home/huic/lstm_scratch/local_scratch/ViralSnake-DNA/projects/SARS2/reference/"
+raw_dir: "/home/huic/lstm_scratch/local_scratch/ViralSnake-DNA/projects/SARS2/rawdata"
 r1_pattern: "{sample}_R1_001.fastq.gz"
 r2_pattern: "{sample}_R2_001.fastq.gz"
 adapter: "/home/huic/miniconda3/share/trimmomatic-0.40-0/adapters/TruSeq3-PE.fa"  ## trimmomatic updates quite often in the server, if trimmomatic doesnt work. Check the directory name (ie trimmomatic-0-x-0/)again

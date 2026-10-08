@@ -38,7 +38,7 @@ rule multiqc:
         [config["proj_dir"] + "/QC/" + name + "_fastqc.html" for name in FASTQ_BY_NAME]
     output:
         config["proj_dir"] + "/QC/raw_multiqc_report.html"
-    params:
-        report_name = "raw_multiqc_report.html"
     shell:
-        "multiqc {config[proj_dir]}/QC/ -o {config[proj_dir]}/QC/ -n {params.report_name}"
+        """
+        multiqc -f {config[proj_dir]}/QC/ -o $(dirname {output}) -n $(basename {output})
+        """

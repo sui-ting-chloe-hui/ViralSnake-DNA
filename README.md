@@ -105,7 +105,7 @@ Put the viral reference **FASTA** (sequence) and **GFF** (gene annotation) in `p
 
 Make the sequence dictionary once (step 002 creates the other index files):
 
-```
+```seqki
 samtools dict projects/MYVIRUS/reference/myvirus.fasta \
     -o projects/MYVIRUS/reference/myvirus.fasta.dict
 ```
@@ -114,7 +114,28 @@ The name must be `<fasta file name>.dict`, e.g. `myvirus.fasta.dict`, not `myvir
 
 ### 3.4 Build a snpEff database
 
-snpEff needs a database built from your FASTA and GFF. **The database name must be the same as your project name** (`MYVIRUS`). Follow the snpEff documentation on building a database for a custom genome.
+snpEff needs a database built from your FASTA and GFF. For downloading the GFF, the easiest route is NCBI's sequence viewer CGI, which will render any annotated nuccore record as GFF3. Then use 'curl' to retrieve the file.
+
+ **The database name must be the same as your project name** (`MYVIRUS`). You can follow the snpEff documentation on building a database for a custom genome. Here's what I do for building the database:
+
+```
+Steps (one-time setup):
+#   1. Locate your snpEff installation:
+        find / -type f -name "snpEff.jar" 2>/dev/null
+#   2. Copy it to your user directory:
+         mkdir -p ~/apps
+         cp -r /opt/miniconda/envs/ntm-profiler/share/snpeff-5.1-1 ~/apps/snpEff_custom
+#   3. Edit ~/apps/snpEff_custom/snpEff.config (use nano or vi):
+#      Add a line for your genome under 'genomes':
+#         MYVIRUS.genome : MYVIRUS_reference
+#   4. Place genome files in the data directory of snpEff:
+         ~/apps/snpEff_custom/data/MYVIRUS/sequences.fa
+         ~/apps/snpEff_custom/data/MYVIRUS/genes.gff
+#   5. Build the database once:
+        cd ~/apps/snpEff_custom
+        java -jar snpEff.jar build -gff3 -noGenome -noCheckCds -noCheckProtein -v MYVIRUS
+# p.s. (-gtf22) if using GTF format 
+```
 
 ### 3.5 Write the config file
 
@@ -268,7 +289,39 @@ bcftools query -f '%CHROM\t%POS\t%REF\t%ALT\t%INFO/DP\t%INFO/AF\n' \
 
 ---
 
-## 7. Troubleshooting
+## 7. Build the variant report (optional)
+
+`workflows/manual/variant_report.py` turns the variant calls into a Word
+document with summary tables, plus a TSV holding every variant in one tidy
+table. It replaces the `bcftools query` one-liner in section 6 when you want
+something to hand to a collaborator.
+
+It needs `python-docx`, which is not in the conda environment above:
+
+```
+pip install python-docx
+```
+
+(The PyPI package is `python-docx` but imports as `docx`. Installing `docx`
+instead gets you an unrelated, abandoned package.)
+
+```
+python workflows/manual/variant_report.py
+--proj-dir projects/MYVIRUS
+--samples SAMPLE1 SAMPLE2
+--reference "NC_000000.1 (MYVIRUS strain)"
+--title "MYVIRUS variant report"
+--out myvirus.report
+```
+
+This writes `myvirus.report.docx` and `myvirus.report.tsv`. Omit `--samples`
+and every sample with a `combined.annotate.vcf` is picked up. `--reference` and
+`--title` are printed into the report text only and default to SARS-CoV-2, so
+set them for your own virus. Run `--help` for the remaining options, which
+adjust the allele-frequency thresholds for the minor-variant table.
+
+
+## 8. Troubleshooting
 
 | Message or symptom | Likely cause and fix |
 |--------------------|----------------------|

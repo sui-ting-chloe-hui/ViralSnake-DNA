@@ -26,9 +26,12 @@ rule all004b:
 rule align_to_reference:
     input:
         unpack(reads_for_alignment),
-        ref_path = config["ref_dir"] + config["ref_fasta"]
+        ref_path = config["ref_dir"] + config["ref_fasta"],
+        ref_idx = expand(config["ref_dir"] + config["ref_fasta"] + ".{ext}",
+                         ext=["amb", "ann", "bwt", "pac", "sa"])
     output:
-        sorted_bam = config["proj_dir"] + "/results/01.alignment/{sample}.sorted.bam"
+        sorted_bam = config["proj_dir"] + "/results/01.alignment/{sample}.sorted.bam",
+        sorted_bai = config["proj_dir"] + "/results/01.alignment/{sample}.sorted.bam.bai"
     threads: config["threads"]
     shell:
         """
